@@ -96,7 +96,7 @@
     <div class="container" id="main-container">
         <div id="start-page">
             <h1 style="color: #FF5C8A; font-size: 2rem;">🧪 Pre-Test </h1>
-            <p style="font-size: 1.1rem;">เรื่อง "Lipid Structure & Metabolism I"</p>
+            <p style="font-size: 1.1rem;">เรื่อง "Lipid Metabolism II"</p>
             <input type="text" id="username" placeholder="ชื่อผู้เล่น">
             <button class="btn" onclick="startQuiz()">เริ่มภารกิจ 🚀</button>
         </div>
@@ -121,23 +121,23 @@
         const questions = [
             {
                 q: "ฮอร์โมนใดทำหน้าที่กระตุ้นการหลั่งน้ำย่อยจากตับอ่อน และการบีบตัวของถุงน้ำดีเพื่อช่วยในการย่อยไขมันในลำไส้เล็ก?",
-                options: ["Glucagon, Secretin, Cholecystokinin, Insulin"],
+                options: ["Cholecystokinin, Glucagon, Secretin, Insulin"],
                 correct: 0
             },
             {
                 q: "ในกระบวนการสลายกรดไขมัน (Beta-oxidation) สารใดทำหน้าที่เป็นตัวนำพากรดไขมันสายยาว (Long-chain fatty acids) เข้าสู่ไมโทคอนเดรีย?",
                 options: ["Malonyl CoA, Carnitine, Albumin, Coenzyme A"],
-                correct: 0
+                correct: 1
             },
             {
                 q: "ผลลัพธ์สุดท้ายของกระบวนการ Beta-oxidation ของกรดไขมันที่มีคาร์บอนจำนวนคู่ จะได้สารใดที่เป็นสารตั้งต้นเข้าสู่ Krebs' cycle?",
                 options: ["Oxaloacetate, Pyruvate, Lactate, Acetyl CoA"],
-                correct: 0
+                correct: 3
             },
             {
                 q: "คีโตนบอดี้ ถูกสร้างขึ้นที่อวัยวะใดเป็นหลัก ในสภาวะที่ร่างกายขาดแคลนกลูโคสหรืออดอาหารเป็นเวลานาน?",
                 options: ["ไต, ตับ, สมอง, กล้ามเนื้อ"],
-                correct: 0
+                correct: 1
             },
         
         ];
