@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lipid Quiz for Student Nurses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --primary-pink: #FF85A2;
+            --secondary-blue: #70D6FF;
+            --bg-gradient: linear-gradient(-45deg, #FF9A9E, #FAD0C4, #A1C4FD, #C2E9FB);
+        }
+        body {
+            margin: 0;
+            font-family: 'Kanit', sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #444;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .btn {
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+            width: 100%;
+            font-family: 'Kanit', sans-serif;
+            box-shadow: 0 4px 15px rgba(255, 133, 162, 0.3);
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 133, 162, 0.5); }
+        .option-btn {
+            background: white;
+            color: #555;
+            border: 2px solid var(--secondary-blue);
+            text-align: left;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+        }
+        .option-btn:hover { background: var(--secondary-blue); color: white; }
+        #timer-bar {
+            width: 100%;
+            height: 12px;
+            background: #eee;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        #timer-fill {
+            width: 100%;
+            height: 100%;
+            background: var(--primary-pink);
+            transition: width 1s linear;
+        }
+        .hidden { display: none; }
+        input[type="text"] {
+            padding: 15px;
+            width: 85%;
+            border-radius: 15px;
+            border: 2px solid #ddd;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            text-align: center;
+            font-family: 'Kanit';
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-container">
+        <div id="start-page">
+            <h1 style="color: #FF5C8A; font-size: 2rem;">🧪 Pre-Test </h1>
+            <p style="font-size: 1.1rem;">เรื่อง "Lipid Structure & Metabolism I"</p>
+            <input type="text" id="username" placeholder="ชื่อผู้เล่น">
+            <button class="btn" onclick="startQuiz()">เริ่มภารกิจ 🚀</button>
+        </div>
+
+        <div id="quiz-page" class="hidden">
+            <div id="timer-text" style="font-weight: bold; color: #FF5C8A; font-size: 1.2rem;">เวลาที่เหลือ: 15 วินาที</div>
+            <div id="timer-bar"><div id="timer-fill"></div></div>
+            <h2 id="question-text" style="font-size: 1.4rem; margin-top: 20px; color: #333;">คำถาม</h2>
+            <div id="options"></div>
+        </div>
+
+        <div id="result-page" class="hidden">
+            <h2 style="font-size: 2rem;">🏆 ขอให้โชคดีค่ะ!</h2>
+            <p style="font-size: 1.2rem;">ยินดีด้วยคุณ <span id="display-name" style="color:var(--primary-pink); font-weight:bold;"></span></p>
+            <p>คะแนนของคุณ + โบนัสความเร็ว คือ</p>
+            <h1 id="score-display" style="font-size: 4rem; color: #4ECDC4; margin: 20px 0;">0</h1>
+            <button class="btn" onclick="location.reload()">กลับหน้าแรก</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "สารใดเป็น 'สารตั้งต้น (Precursor)' ในการสร้างฮอร์โมนเพศและวิตามินดี?",
+                options: ["คอเลสเตอรอล", "ไกลโคเจน", "ฟอสโฟลิพิด", "กรดไขมันไม่อิ่มตัว"],
+                correct: 0
+            },
+            {
+                q: "คนไข้ที่มีอาการถ่ายอุจจาระเป็นมันลื่น (Steatorrhea) สันนิษฐานว่าเกิดความบกพร่องของสารใดในกระบวนการ Emulsification?",
+                options: ["น้ำดี", "ฮอร์โมนอินซูลิน", "เอนไซม์อะไมเลส", "กรดเกลือในกระเพาะ"],
+                correct: 0
+            },
+            {
+                q: "VLDL ทำหน้าที่ขนส่งไขมันชนิดใดเป็นหลัก?",
+                options: ["ไตรกลีเซอไรด์ที่ตับสร้างขึ้น", "คอเลสเตอรอลจากตับ", "ไขมันที่ดูดซึมจากอาหารใหม่", "คอเลสเตอรอลกลับสู่ตับ"],
+                correct: 0
+            },
+            {
+                q: "เอนไซม์หลักที่ทำหน้าที่ย่อย Triglyceride ในลำไส้เล็กคือ?",
+                options: ["Lipase", "Pepsin", "Trypsin", "Lactase"],
+                correct: 0
+            },
+            {
+                q: "กรดไขมันชนิดใดต่อไปนี้มีจุดหลอมเหลวต่ำที่สุด?",
+                options: ["C18:3", "C16:0", "C18:0", "C18:1"],
+                correct: 0
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 15;
+        let playerName = "";
+
+        const correctSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
+        const wrongSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
+
+        function startQuiz() {
+            const nameInput = document.getElementById('username').value.trim();
+            if (!nameInput) {
+                Swal.fire({
+                    title: 'ลืมใส่ชื่อหรือเปล่า?',
+                    text: 'กรุณาใส่ชื่อก่อนเริ่มเกมนะครับ',
+                    icon: 'warning',
+                    confirmButtonText: 'ตกลง',
+                    confirmButtonColor: '#FF85A2'
+                });
+                return;
+            }
+            playerName = nameInput;
+            document.getElementById('start-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.remove('hidden');
+            document.getElementById('display-name').innerText = playerName;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            clearInterval(timer);
+            timeLeft = 15;
+            updateTimerUI();
+            
+            const qData = questions[currentQ];
+            document.getElementById('question-text').innerText = `${currentQ + 1}. ${qData.q}`;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            let opts = [...qData.options];
+            let correctText = opts[qData.correct];
+            opts.sort(() => Math.random() - 0.5);
+
+            opts.forEach(opt => {
+                const b = document.createElement('button');
+                b.className = 'btn option-btn';
+                b.innerText = opt;
+                b.onclick = () => checkAns(opt === correctText);
+                optionsDiv.appendChild(b);
+            });
+
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimerUI();
+                if (timeLeft <= 0) checkAns(false);
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            document.getElementById('timer-text').innerText = `เวลาที่เหลือ: ${timeLeft} วินาที`;
+            const fill = document.getElementById('timer-fill');
+            fill.style.transition = 'none';
+            fill.style.width = (timeLeft / 15 * 100) + '%';
+            setTimeout(() => { fill.style.transition = 'width 1s linear'; }, 10);
+        }
+
+        function checkAns(isCorrect) {
+            clearInterval(timer);
+            if (isCorrect) {
+                score += (100 + (timeLeft * 10)); 
+                correctSound.play();
+                Swal.fire({ icon: 'success', title: 'ถูกต้อง!', showConfirmButton: false, timer: 700 });
+            } else {
+                wrongSound.play();
+                Swal.fire({ icon: 'error', title: 'ผิดจ้า!', showConfirmButton: false, timer: 700 });
+            }
+
+            setTimeout(() => {
+                currentQ++;
+                if (currentQ < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 900);
+        }
+
+        function showResult() {
+            document.getElementById('quiz-page').classList.add('hidden');
+            document.getElementById('result-page').classList.remove('hidden');
+            document.getElementById('score-display').innerText = score;
+            
+            // --- จุดที่แก้ไข: เรียกใช้ฟังก์ชันส่งข้อมูลที่นี่ ---
+            sendToGoogleSheet(playerName, score);
+        }
+
+        // --- จุดที่แก้ไข: ย้ายฟังก์ชันออกมาข้างนอก และปรับปรุงให้แม่นยำขึ้น ---
+        function sendToGoogleSheet(pName, fScore) {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyWNj8XKOkUus5ZORLl9a6LQYRR3GPiVjM-M4pI9i_FHfyU8_IkFNcTqPDPTkunRTJWrQ/exec'; 
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    name: pName, 
+                    score: fScore 
+                })
+            })
+            .then(() => console.log("ส่งข้อมูลสำเร็จ!"))
+            .catch(error => console.error("Error!", error.message));
+        }
+    </script>
+</body>
+</html>
